@@ -3,3 +3,7 @@ raw_data/
 *.parquet
 venv/
 __pycache__/
+*.duckdb
+transform/target/
+transform/logs/
+transform/dbt_packages/
