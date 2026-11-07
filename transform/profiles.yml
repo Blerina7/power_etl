@@ -1,0 +1,6 @@
+transform:
+  outputs:
+    dev:
+      type: duckdb
+      path: ../warehouse.duckdb
+  target: dev
