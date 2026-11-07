@@ -2,7 +2,6 @@
 
 **Project Bio:** An automated ELT pipeline that ingests hourly electricity prices, load, generation mix, and weather data for Albania and neighbouring SEE countries, transforms it with dbt, and serves it through an analytics dashboard.
 
-**CV Resume Line:** Built an end-to-end ELT pipeline with Python, Airflow, dbt, and DuckDB that processes hourly European power market data, with automated data quality tests, CI/CD, and a Dockerized deployment.
 
 ---
 
