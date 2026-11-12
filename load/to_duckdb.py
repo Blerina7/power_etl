@@ -1,41 +1,36 @@
 import duckdb
 
+
 def load_data():
-    print("Duke u lidhur me databazën DuckDB (warehouse.duckdb)...")
-    # Kjo krijon skedarin e databazës nëse nuk ekziston
-    con = duckdb.connect('warehouse.duckdb')
-    
-    # Krijojmë një skemë 'raw' për të mbajtur të dhënat e papërpunuara
+    print("Connecting to DuckDB warehouse (warehouse.duckdb)...")
+
+    con = duckdb.connect("warehouse.duckdb")
     con.execute("CREATE SCHEMA IF NOT EXISTS raw;")
-    
-    print("Duke lexuar skedarët Parquet dhe duke i kaluar në tabela...")
-    
-    # DuckDB është aq i zgjuar sa mund të lexojë direkt nga skedarët Parquet!
-    # Krijojmë/Zëvendësojmë tabelën e çmimeve
+    print("Reading Parquet files and loading them into tables...")
+
     try:
         con.execute("""
-            CREATE OR REPLACE TABLE raw.entsoe_prices AS 
+            CREATE OR REPLACE TABLE raw.entsoe_prices AS
             SELECT * FROM 'raw_data/prices_AL_*.parquet'
         """)
-        print("✅ Tabela 'entsoe_prices' u ngarkua me sukses!")
+        print("Table 'entsoe_prices' loaded successfully.")
     except Exception as e:
-        print(f"❌ Gabim te çmimet: {e}")
+        print(f"Error loading power prices: {e}")
 
-    # Krijojmë/Zëvendësojmë tabelën e motit
     try:
         con.execute("""
-            CREATE OR REPLACE TABLE raw.open_meteo AS 
+            CREATE OR REPLACE TABLE raw.open_meteo AS
             SELECT * FROM 'raw_data/weather_tirana_*.parquet'
         """)
-        print("✅ Tabela 'open_meteo' u ngarkua me sukses!")
+        print("Table 'open_meteo' loaded successfully.")
     except Exception as e:
-        print(f"❌ Gabim te moti: {e}")
+        print(f"Error loading weather data: {e}")
 
-    # Le të bëjmë një query të thjeshtë SQL për të parë çfarë kemi
-    print("\nPreview i 3 rreshtave të parë nga çmimet:")
+    print("\nPreview of the first 3 rows from the prices table:")
     print(con.sql("SELECT * FROM raw.entsoe_prices LIMIT 3").df())
-    
+
     con.close()
+
 
 if __name__ == "__main__":
     load_data()
