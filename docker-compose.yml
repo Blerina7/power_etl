@@ -25,6 +25,9 @@ services:
       - AIRFLOW__WEBSERVER__SECRET_KEY=secret_key_for_balkan_etl
     ports:
       - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - .:/opt/airflow/project
     depends_on:
       - postgres
 
@@ -36,6 +39,9 @@ services:
       - AIRFLOW__CORE__CONN_MAX_AGE=0
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - .:/opt/airflow/project
     depends_on:
       - postgres
 
